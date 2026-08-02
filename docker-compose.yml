@@ -1,0 +1,63 @@
+services:
+
+  gateway:
+
+    container_name: corex-gateway
+
+    build:
+      context: ./gateway
+
+    ports:
+      - "8080:8080"
+
+    environment:
+
+      ENGINE_URL:
+        http://engine:9000
+
+
+      BACKEND_URL:
+        http://backend-java:8081
+
+
+    depends_on:
+
+      - engine
+      - backend-java
+
+
+    restart: unless-stopped
+
+
+
+  engine:
+
+    container_name: corex-engine
+
+    build:
+      context: ./engine
+
+
+    ports:
+
+      - "9000:9000"
+
+
+    restart: unless-stopped
+
+
+
+  backend-java:
+
+    container_name: corex-backend
+
+    build:
+      context: ./backend-java
+
+
+    ports:
+
+      - "8081:8081"
+
+
+    restart: unless-stopped
